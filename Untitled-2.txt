@@ -1,0 +1,28 @@
+static struct proc_struct * alloc_proc(void) {  
+    struct proc_struct *proc = kmalloc(sizeof(struct proc_struct));  
+    if (proc != NULL) {  
+        proc->state = PROC_UNINIT;  
+        proc->pid = -1;  
+        proc->runs = 0;  
+        proc->kstack = 0;  
+        proc->need_resched = 0;  
+        proc->parent = NULL;  
+        proc->mm = NULL;  
+        memset(&(proc->context), 0, sizeof(struct context));  
+        proc->tf = NULL;  
+        proc->cr3 = boot_cr3;  
+        proc->flags = 0;  
+        memset(proc->name, 0, PROC_NAME_LEN);  
+        proc->wait_state = 0;  
+        proc->cptr = proc->optr = proc->yptr = NULL;  
+        proc->rq = NULL;  
+        proc->run_link.prev = proc->run_link.next = NULL;  
+        proc->time_slice = 0;  
+        proc->lab6_run_pool.left = proc->lab6_run_pool.right = proc->lab6_run_pool.parent = NULL;  
+        proc->lab6_stride = 0;  
+        proc->lab6_priority = 0;  
+
+        proc->filesp = NULL;     //初始化fs中的进程控制结构
+    }  
+    return proc;  
+}  
